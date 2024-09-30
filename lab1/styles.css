@@ -1,6 +1,7 @@
 .section {
     display: inline-block;
     scroll-margin-top: 50px;
+    width: 100%;
 }
 
 .beige {
@@ -11,7 +12,7 @@
     max-width: 100%;
 }
 
-#section2 {
+.orb {
     background-image: url("bg-orbs-1.jpg");
     color: white;
 }
