@@ -1,0 +1,80 @@
+.section {
+    display: inline-block;
+    scroll-margin-top: 50px;
+}
+
+.beige {
+    background-color: rgb(245, 240, 230);
+}
+
+#section2 {
+    background-image: url("bg-orbs-1.jpg");
+    color: white;
+}
+
+#navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #eee;
+  position: sticky;
+  top: 0;
+  max-width: 400px;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 6px;
+  text-decoration: none;
+  font-size: 28px;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #182b49;
+    color:white;
+} 
+
+p {
+  font-size: 28px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto;
+  /*gap: 10px;*/
+  /*grid-auto-rows: minmax(100px, auto);*/
+}
+
+.grid-box {
+    background-color: #182b49;
+    color: white;
+    margin: 10px;
+    padding: 10px;
+    max-height: 500px;
+    overflow: scroll;
+}
+
+.one {
+  grid-column: 1;
+  grid-row: 1;
+}
+.two {
+  grid-column: 2;
+  grid-row: 1;
+}
+.three {
+  grid-column: 3;
+  grid-row: 1;
+}
+.four {
+  grid-column: 4;
+  grid-row: 1;
+}
