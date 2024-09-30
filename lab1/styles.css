@@ -7,6 +7,10 @@
     background-color: rgb(245, 240, 230);
 }
 
+.section-image {
+    max-width: 100%;
+}
+
 #section2 {
     background-image: url("bg-orbs-1.jpg");
     color: white;
@@ -31,7 +35,7 @@ li a {
   display: block;
   color: black;
   text-align: center;
-  padding: 14px 6px;
+  padding: 14px 14px;
   text-decoration: none;
   font-size: 28px;
 }
@@ -48,7 +52,7 @@ p {
 
 .grid {
   display: grid;
-  grid-template-columns: auto;
+  grid-auto-columns: auto;
   /*gap: 10px;*/
   /*grid-auto-rows: minmax(100px, auto);*/
 }
@@ -77,4 +81,44 @@ p {
 .four {
   grid-column: 4;
   grid-row: 1;
+}
+
+@media (max-width: 800px) {
+    #navbar {
+        display: none;
+    }
+
+    a {
+        font-size: 20px;
+    }
+
+    #logo-img {
+        max-width: 75%;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .one {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .two {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    .three {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    .four {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
 }
