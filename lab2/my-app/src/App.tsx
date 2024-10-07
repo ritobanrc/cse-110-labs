@@ -3,36 +3,121 @@ import './App.css';
 import { Label, Note } from "./types"; // Import the Label type from the appropriate module
 import { dummyNotesList } from "./constants"; // Import the dummyNotesList from the appropriate module
 import { ClickCounter, ToggleTheme } from "./hooksExercise"; // Import the dummyNotesList from the appropriate module
+import React, { useState, useEffect, useContext } from 'react';
 
+function NoteComponent(id: number, notes: Map<number, Note>, setNotes: (n: Map<number, Note>) => void) {
+    const note = notes.get(id)!;
 
+    const favoriteClass = note.isFavorite ? "note-unfavorite" : "note-favorite";
+
+    const onFavorite = () => {
+        notes.get(id)!.isFavorite = !notes.get(id)!.isFavorite;
+        setNotes(new Map<number, Note>(notes));
+    }
+
+    const onDelete = () => {
+        notes.delete(id);
+        setNotes(new Map<number, Note>(notes));
+    }
+
+    return <div key={note.id} className="note-item">
+        <div className="note-header">
+            <button className={favoriteClass} onClick={onFavorite}></button>
+            <button className="note-close" onClick={onDelete}>x</button>
+        </div>
+        <h2> {note.title} </h2>
+        <p> {note.content} </p>
+        <p> {note.label} </p>
+    </div>;
+}
 
 function App() {
- return (
-   <div className='app-container'>
+    const [favorites, setFavorites] = useState(new Map<number, Note>());
+    const [notes, setNotes] = useState(dummyNotesList);
+    const initialNote = {
+        id: -1,
+        title: "",
+        content: "",
+        label: Label.other,
+    };
+    const [createNote, setCreateNote] = useState(initialNote);
 
-     <form className="note-form">
-         <div><input placeholder="Note Title"></input></div>
-         <div><textarea></textarea></div>
-         <div><button type="submit">Create Note</button></div>
-     </form>
+    const createNoteHandler = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setNotes([...notes, createNote]);
+    };
 
-     <div className="notes-grid">
-     {dummyNotesList.map((note) => (
-         <div key={note.id} className="note-item">
-             <div className="notes-header">
-                 <button>x</button>
-             </div>
-             <h2> {note.title} </h2>
-             <p> {note.content} </p>
-             <p> {note.label} </p>
-         </div>
-     ))}
-     </div>
+    return (
+        <div className='app-container'>
+            <div>
+                <form className="note-form" onSubmit={createNoteHandler}>
+                    <div>
+                        <input
+                            placeholder="Note Title"
+                            onChange={(event) =>
+                                setCreateNote({ ...createNote, title: event.target.value })}
+                            required>
+                        </input>
+                    </div>
 
-     <ToggleTheme />
+                    <div>
+                        <textarea
+                            onChange={(event) =>
+                                setCreateNote({ ...createNote, content: event.target.value })}
+                            required>
+                        </textarea>
+                    </div>
 
-   </div>
- );
+                    <div>
+                        <select
+                            onChange={(event) =>
+                                setCreateNote({ ...createNote, label: event.target.value as Label })}
+                            required>
+                            <option value={Label.other}>Other</option>
+                            <option value={Label.personal}>Personal</option>
+                            <option value={Label.study}>Study</option>
+                            <option value={Label.work}>Work</option>
+                        </select>
+                    </div>
+
+                    <div><button type="submit">Create Note</button></div>
+                </form>
+                <div className="note-form">
+                    <button>Toggle Theme (TODO)</button>
+                </div>
+                <div>
+                    <h2>List of favorites</h2>
+                    {Array.from(favorites.values()).map(n => <>{n.title}<br/></>)}
+                </div>
+            </div>
+
+            <div className="notes-grid">
+                {notes.map((note) => (
+                    <div
+                        key={note.id}
+                        className="note-item"
+                    >
+                        <div className="note-header">
+                            <button
+                                className={favorites.has(note.id) ? "note-unfavorite" : "note-favorite"}
+                                onClick={() => {
+                                    if (favorites.has(note.id))
+                                        favorites.delete(note.id);
+                                    else
+                                        favorites.set(note.id, note as Note);
+                                    setFavorites(new Map<number, Note>(favorites));
+                                }}
+                            >&#x2764;</button>
+                            <button onClick={() => setNotes(notes.filter(n => n.id != note.id))}>x</button>
+                        </div>
+                        <h2 contentEditable> {note.title} </h2>
+                        <p contentEditable> {note.content} </p>
+                        <p contentEditable> {note.label} </p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 export default App;
