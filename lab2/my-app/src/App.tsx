@@ -5,32 +5,6 @@ import { dummyNotesList } from "./constants"; // Import the dummyNotesList from 
 import { ClickCounter, ToggleTheme } from "./hooksExercise"; // Import the dummyNotesList from the appropriate module
 import React, { useState, useEffect, useContext } from 'react';
 
-function NoteComponent(id: number, notes: Map<number, Note>, setNotes: (n: Map<number, Note>) => void) {
-    const note = notes.get(id)!;
-
-    const favoriteClass = note.isFavorite ? "note-unfavorite" : "note-favorite";
-
-    const onFavorite = () => {
-        notes.get(id)!.isFavorite = !notes.get(id)!.isFavorite;
-        setNotes(new Map<number, Note>(notes));
-    }
-
-    const onDelete = () => {
-        notes.delete(id);
-        setNotes(new Map<number, Note>(notes));
-    }
-
-    return <div key={note.id} className="note-item">
-        <div className="note-header">
-            <button className={favoriteClass} onClick={onFavorite}></button>
-            <button className="note-close" onClick={onDelete}>x</button>
-        </div>
-        <h2> {note.title} </h2>
-        <p> {note.content} </p>
-        <p> {note.label} </p>
-    </div>;
-}
-
 function App() {
     const [favorites, setFavorites] = useState(new Map<number, Note>());
     const [notes, setNotes] = useState(dummyNotesList);
