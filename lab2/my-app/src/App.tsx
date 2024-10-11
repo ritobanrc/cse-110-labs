@@ -4,6 +4,7 @@ import { Label, Note } from "./types"; // Import the Label type from the appropr
 import { dummyNotesList } from "./constants"; // Import the dummyNotesList from the appropriate module
 import { ClickCounter, ToggleTheme } from "./hooksExercise"; // Import the dummyNotesList from the appropriate module
 import React, { useState, useEffect, useContext } from 'react';
+import { ThemeContext, themes } from "./ThemeContext";
 
 function App() {
     const [favorites, setFavorites] = useState(new Map<number, Note>());
@@ -21,8 +22,21 @@ function App() {
         setNotes([...notes, createNote]);
     };
 
+    const [currentTheme, setCurrentTheme] = useState(themes.light);
+    const theme = useContext(ThemeContext);
+   
+    const toggleTheme = () => {
+      setCurrentTheme(currentTheme === themes.light ? themes.dark : themes.light);
+    };
+
+
     return (
-        <div className='app-container'>
+       <ThemeContext.Provider value={currentTheme}>
+        <div className='app-container'
+            style={{
+                background: currentTheme.background,
+                color: currentTheme.foreground,
+            }}>
             <div>
                 <form className="note-form" onSubmit={createNoteHandler}>
                     <div>
@@ -57,7 +71,7 @@ function App() {
                     <div><button type="submit">Create Note</button></div>
                 </form>
                 <div className="note-form">
-                    <button>Toggle Theme (TODO)</button>
+                   <button onClick={toggleTheme}> Toggle Theme </button>
                 </div>
                 <div>
                     <h2>List of favorites</h2>
@@ -70,6 +84,10 @@ function App() {
                     <div
                         key={note.id}
                         className="note-item"
+                        style={{
+                            background: currentTheme.background,
+                            color: currentTheme.foreground,
+                        }}
                     >
                         <div className="note-header">
                             <button
@@ -91,6 +109,7 @@ function App() {
                 ))}
             </div>
         </div>
+     </ThemeContext.Provider>
     );
 }
 

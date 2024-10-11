@@ -48,3 +48,4 @@ export function ToggleTheme() {
  );
 }
 
+export default ToggleTheme;
